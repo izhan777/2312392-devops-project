@@ -20,6 +20,8 @@ class StudentCreate(BaseModel):
     semester: int = Field(..., ge=1, le=8)
     section: str = Field(..., pattern="^[A-C]$")
 
+
+
 class StudentResponse(StudentCreate):
     id: int
 
