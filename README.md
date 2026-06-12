@@ -1,10 +1,10 @@
 # DevOps Final Project
 
-**Student:** Muhammad Izhan Waheed
-**Registration Number: ** 2312392
-**Course: ** DevOps Fundamentals
-**Instructor: ** Sir Afaq Ahmed
-**Live URL: ** http://54.164.10.95:8000/health
+**Student:** Muhammad Izhan Waheed  
+**Registration Number: ** 2312392  
+**Course: ** DevOps Fundamentals  
+**Instructor: ** Sir Afaq Ahmed  
+**Live URL: ** http://54.164.10.95:8000/health  
 
 ---
 
