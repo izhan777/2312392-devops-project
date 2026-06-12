@@ -2,9 +2,9 @@ from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy.orm import Session
 from . import models, database
 from .database import engine
-from pydantic import BaseModel
-from pydantic import Field
+from pydantic import BaseModel, Field
 import logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -13,13 +13,11 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="DevOps Project", version="1.0.0")
 
 
-# ── Pydantic schemas ─────────────────────────────────────
 class StudentCreate(BaseModel):
     reg_no: str = Field(..., min_length=5, max_length=20)
     name: str = Field(..., min_length=2, max_length=100)
     semester: int = Field(..., ge=1, le=8)
     section: str = Field(..., pattern="^[A-C]$")
-
 
 
 class StudentResponse(StudentCreate):
@@ -29,7 +27,6 @@ class StudentResponse(StudentCreate):
         from_attributes = True
 
 
-# ── Dependency ────────────────────────────────────────────
 def get_db():
     db = database.SessionLocal()
     try:
@@ -38,11 +35,9 @@ def get_db():
         db.close()
 
 
-# ── Endpoints ─────────────────────────────────────────────
 @app.get("/health")
 def health(db: Session = Depends(get_db)):
     logger.info("Health check called")
-    """Health check — also verifies DB connection."""
     try:
         db.execute(database.text("SELECT 1"))
         db_status = "connected"
@@ -51,13 +46,12 @@ def health(db: Session = Depends(get_db)):
     return {
         "status": "ok",
         "db": db_status,
-        "student": "2312392",   # <-- YOUR REGISTRATION NUMBER
+        "student": "2312392",
     }
 
 
 @app.post("/students", response_model=StudentResponse, status_code=201)
 def create_student(student: StudentCreate, db: Session = Depends(get_db)):
-    """Add a new student record to the database."""
     existing = db.query(models.Student).filter(
         models.Student.reg_no == student.reg_no
     ).first()
@@ -72,13 +66,11 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
 
 @app.get("/students", response_model=list[StudentResponse])
 def list_students(db: Session = Depends(get_db)):
-    """Return all students from the database."""
     return db.query(models.Student).all()
 
 
 @app.get("/students/{reg_no}", response_model=StudentResponse)
 def get_student(reg_no: str, db: Session = Depends(get_db)):
-    """Return a single student by registration number."""
     student = db.query(models.Student).filter(
         models.Student.reg_no == reg_no
     ).first()
