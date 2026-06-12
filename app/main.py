@@ -4,6 +4,9 @@ from . import models, database
 from .database import engine
 from pydantic import BaseModel
 from pydantic import Field
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -36,6 +39,7 @@ def get_db():
 # ── Endpoints ─────────────────────────────────────────────
 @app.get("/health")
 def health(db: Session = Depends(get_db)):
+    logger.info("Health check called")
     """Health check — also verifies DB connection."""
     try:
         db.execute(database.text("SELECT 1"))
