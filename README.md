@@ -1,8 +1,8 @@
-# BSCS-2022-001 — DevOps Final Project
+# DevOps Final Project
 
-> **Student:** BSCS-2022-001
-> **Course:** DevOps Fundamentals
-> **Live URL:** http://YOUR_EC2_IP:8000
+> **Student:** Muhammad Izhan Waheed - 2312392
+> **Course:** DevOps Fundamentals | **Instructor:** Sir Afaq Ahmed
+> **Live URL:** http://54.164.10.95:8000/health
 
 ---
 
@@ -22,7 +22,7 @@ GitHub Push
 
 **Services:**
 - `web` — FastAPI application on port 8000
-- `db`  — PostgreSQL 15 with persistent named volume
+- `db` — PostgreSQL 15 with persistent named volume
 
 ---
 
@@ -32,8 +32,8 @@ GitHub Push
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/BSCS-2022-001-devops-project
-cd BSCS-2022-001-devops-project
+git clone https://github.com/izhan777/2312392-devops-project
+cd 2312392-devops-project
 
 # 2. Create your .env file
 cp .env.example .env
@@ -53,10 +53,10 @@ curl http://localhost:8000/students
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | /health | Health check + DB connection status |
-| POST | /students | Create a new student record |
-| GET | /students | List all students |
-| GET | /students/{reg_no} | Get student by registration number |
+| GET | `/health` | Health check + DB connection status |
+| POST | `/students` | Create a new student record |
+| GET | `/students` | List all students |
+| GET | `/students/{reg_no}` | Get student by registration number |
 
 ---
 
@@ -64,14 +64,14 @@ curl http://localhost:8000/students
 
 ```bash
 # SSH into your EC2 instance
-ssh -i your-key.pem ubuntu@YOUR_EC2_IP
+ssh -i devops-key.pem ubuntu@54.164.10.95
 
 # Install Docker
-sudo apt update && sudo apt install -y docker.io docker-compose-plugin
+sudo apt update && sudo apt install -y docker.io docker-compose
 sudo usermod -aG docker ubuntu
 
 # Clone and run
-git clone https://github.com/YOUR_USERNAME/BSCS-2022-001-devops-project ~/devops-project
+git clone https://github.com/izhan777/2312392-devops-project ~/devops-project
 cd ~/devops-project
 cp .env.example .env   # Edit with production values
 docker compose -f docker-compose.prod.yml up -d --build
@@ -86,11 +86,12 @@ docker compose -f docker-compose.prod.yml up -d --build
 ## Running Tests
 
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 pytest app/tests/ -v
 ```
 
 ---
 
-*DevOps Fundamentals — Instructor: Afaq Ahmed*
-# Auto-deploy working
+*DevOps Fundamentals — Instructor: Sir Afaq Ahmed | SZABIST Karachi*
