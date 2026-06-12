@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from . import models, database
 from .database import engine
 from pydantic import BaseModel
+from pydantic import Field
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,11 +15,10 @@ app = FastAPI(title="DevOps Project", version="1.0.0")
 
 # ── Pydantic schemas ─────────────────────────────────────
 class StudentCreate(BaseModel):
-    reg_no: str
-    name: str
-    semester: int
-    section: str
-
+    reg_no: str = Field(..., min_length=5, max_length=20)
+    name: str = Field(..., min_length=2, max_length=100)
+    semester: int = Field(..., ge=1, le=8)
+    section: str = Field(..., pattern="^[A-C]$")
 
 class StudentResponse(StudentCreate):
     id: int
